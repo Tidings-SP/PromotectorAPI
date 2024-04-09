@@ -1,1 +1,15 @@
-{"projectId":"prj_AhxHDImQFKYnvWo5VlShLIBGezV3","orgId":"team_MbiNIZNKIWVUAEc7j351vktr"}
+{
+  "projectId": "prj_AhxHDImQFKYnvWo5VlShLIBGezV3",
+  "orgId": "team_MbiNIZNKIWVUAEc7j351vktr",
+  "settings": {
+    "createdAt": 1712682840090,
+    "framework": null,
+    "devCommand": null,
+    "installCommand": null,
+    "buildCommand": null,
+    "outputDirectory": null,
+    "rootDirectory": null,
+    "directoryListing": false,
+    "nodeVersion": "20.x"
+  }
+}

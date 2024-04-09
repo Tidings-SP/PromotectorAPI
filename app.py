@@ -30,4 +30,5 @@ def api():
         text = my_file.read()
         return text
 
-   
+if __name__ == "__main__":   
+    app.run(debug=False)      

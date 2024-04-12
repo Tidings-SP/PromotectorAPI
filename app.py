@@ -6,6 +6,10 @@ import pickle
 
 clf = pickle.load(open('model.pkl','rb'))
 app = Flask(__name__)
+@app.route('/') 
+def index():
+    return "<center><h1>To use the API put / followed by your text on the root url!</h1></center>"
+
 
 
 @app.route('/<st>', methods = ['GET']) 

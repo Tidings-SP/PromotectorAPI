@@ -38,7 +38,7 @@ def extract_text_from_video(url, isEng = True):
     # Specify the language code for Tamil
     r.lang = "ta-IN"
 
-    with sr.AudioFile("2.wav") as source:
+    with sr.AudioFile("/opt/render/project/src/2.wav") as source:
         # Listen for the data (load audio to memory)
         audio_data = r.record(source)
     try:

@@ -15,34 +15,42 @@ def index():
 
 
 
-@app.route('/<st>', methods = ['GET']) 
-def detect(st):
-    rs = extract_text_from_video()
-    # rs = 'Fake Promotion' if (clf.predict([st]) == 0) else 'Genuine Promotion'
-    return jsonify({'data': rs}) 
+@app.route('/detect', methods = ['GET']) 
+def detect():
+    url = request.args.get('url')
+    is_eng_param = request.args.get('isEng')
+    is_eng = is_eng_param.lower() in ['true', '1', 't', 'y', 'yes'] if is_eng_param else True
+    data = extract_text_from_video(url, is_eng)
+    rs = 'Fake Promotion' if (clf.predict([data]) == 0) else 'Genuine Promotion'
+    return jsonify({'data': data,
+                    'prediction' : rs,
+                    }) 
   
 
 
-def extract_text_from_video():
-    video = mp.VideoFileClip("https://firebasestorage.googleapis.com/v0/b/promodetector-7ddb1.appspot.com/o/1.mp4?alt=media&token=6ca8d382-fc9a-4482-a1cb-0d5b32e51472")
+def extract_text_from_video(url, isEng = True):
+    video = mp.VideoFileClip(url)
     audio_file = video.audio 
-    audio_file.write_audiofile("1.wav")
-    isEng = False
+    audio_file.write_audiofile("2.wav")
     r = sr.Recognizer() 
     trans = GoogleTranslator()
-
+    # print(type(audio_file))
     # Specify the language code for Tamil
     r.lang = "ta-IN"
 
-    with sr.AudioFile('1.wav') as source:
+    with sr.AudioFile("2.wav") as source:
         # Listen for the data (load audio to memory)
         audio_data = r.record(source)
     try:
         # Recognize the audio and specify English as the language
-        text = r.recognize_google(audio_data, language='ta-IN')  # Specify English language
+        if(isEng):
+            text = r.recognize_google(audio_data) 
+        else:
+            text = r.recognize_google(audio_data, language='ta-IN') 
         print("You said: " + text)
     except sr.UnknownValueError:
         print("Could not understand audio")
+        print("You said: " + text)
     except sr.RequestError as e:
         print("Could not request results from Google Speech Recognition service; {0}".format(e))
 
@@ -54,5 +62,5 @@ def extract_text_from_video():
 
 
 
-# if __name__ == "__main__":   
-#     app.run(debug=False)      
+if __name__ == "__main__":   
+    app.run(debug=False)      
